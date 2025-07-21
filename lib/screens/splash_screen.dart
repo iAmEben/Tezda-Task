@@ -1,6 +1,5 @@
 
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:auto_route/annotations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @RoutePage()
