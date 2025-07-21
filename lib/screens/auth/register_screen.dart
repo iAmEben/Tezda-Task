@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../providers/authProvider.dart';
 import '../../routes/route.dart';
 
 
@@ -28,7 +29,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   @override
-  Widget build(BuildContext context) { // Builds the UI
+  Widget build(BuildContext context) {
     var heightOfScreen = MediaQuery.of(context).size.height;
     var widthOfScreen = MediaQuery.of(context).size.width;
     return GestureDetector(
@@ -73,20 +74,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       const SizedBox(height: 40),
                       ElevatedButton(
                         onPressed: () async {
-                          // if (_formKey.currentState!.validate()) { // Validates form
-                          //   final success = await ref.read(authProvider.notifier).register( // Calls register function
-                          //     _usernameController.text, // Passes username
-                          //     _emailController.text, // Passes email
-                          //     _passwordController.text, // Passes password
-                          //   );
-                          //   if (success) { // Checks if registration was successful
-                          //     context.router.replace(const ProductListRoute()); // Navigates to product list
-                          //   } else { // Handles registration failure
-                          //     ScaffoldMessenger.of(context).showSnackBar( // Shows error message
-                          //       const SnackBar(content: Text('Registration failed')), // Error message
-                          //     );
-                          //   }
-                          // }
+                          if (_formKey.currentState!.validate()) { 
+                            final success = await ref.read(authProvider.notifier).register(
+                              _usernameController.text,
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                            if (success) {
+                              // context.router.replace(const ProductListRoute());
+                              const SnackBar(content: Text('Registration Success'));
+                            } else { // Handles registration failure
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Registration failed')),
+                              );
+                            }
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -153,10 +155,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+
             const SizedBox(height: 50),
             const Icon(
               Icons.person,
-              size: 60,
+              size: 30,
               color: Colors.black54,
             ),
             Align(
