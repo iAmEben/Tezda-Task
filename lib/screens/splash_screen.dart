@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../routes/route.dart';
+
+
 @RoutePage()
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -64,7 +67,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
       // Navigate to LoginScreen after 1-second delay
       Future.delayed(const Duration(milliseconds: 1000), () {
         if (mounted) {
-          // context.router.replace(const LoginRoute());
+          context.router.replace(const LoginRoute());
         }
       });
     }
