@@ -16,7 +16,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   auto_route: ^7.9.2
   http: ^0.13.5
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.2.0
   flutter_riverpod: ^2.0.0
 
 
