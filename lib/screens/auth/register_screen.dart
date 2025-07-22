@@ -81,7 +81,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               _passwordController.text,
                             );
                             if (success) {
-                              // context.router.replace(const ProductListRoute());
+                              context.router.replace(const ProductListRoute());
                               const SnackBar(content: Text('Registration Success'));
                             } else { // Handles registration failure
                               ScaffoldMessenger.of(context).showSnackBar(

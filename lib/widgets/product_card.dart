@@ -17,7 +17,7 @@ class ProductCard extends ConsumerWidget {
     required this.product,
     this.width = 340.0,
     this.cardHeight = 280.0,
-    this.imageHeight = 100.0,
+    this.imageHeight = 120.0,
     this.cardElevation = 4.0,
   });
 
