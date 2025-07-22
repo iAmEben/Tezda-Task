@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/product_provider.dart';
 import '../routes/route.dart';
+import '../values/styles.dart';
 import '../widgets/product_card.dart';
 import '../widgets/search_input_field.dart';
 
@@ -58,15 +59,17 @@ class ProductListScreen extends ConsumerWidget {
               const SizedBox(height: 16.0),
               Expanded(
                 child: productsAsync.when(
-                  data: (products) => ListView.builder(
-                    itemCount: products.length,
-                    itemBuilder: (context, index) {
-                      final product = products[index];
-                      return ProductCard(
-                        product: product,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                      );
-                    },
+                  data: (products) => products.isEmpty
+                    ? Center(child: Text('There are no products right now', style: Styles.normalTextStyle))
+                    :ListView.builder(
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        final product = products[index];
+                        return ProductCard(
+                          product: product,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                        );
+                      },
                   ),
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (error, _) => Center(child: Text('Error: $error')),

@@ -21,9 +21,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> _loadAuthState() async {
     final token = _prefs.getString('token');
     final refreshToken = _prefs.getString('refreshToken');
-    if (token != null && refreshToken != null) {
+    if (token != null && refreshToken != null && isTokenValid()) {
       state = AuthState(isAuthenticated: true, token: token, refreshToken: refreshToken);
     }
+  }
+
+  bool isTokenValid() {
+    final loginTimestamp = _prefs.getInt('loginTimestamp');
+    if (loginTimestamp == null) return false;
+    final currentTime = DateTime.now().millisecondsSinceEpoch;
+    final twentyDaysInMillis = 20 * 24 * 60 * 60 * 1000;
+    return (currentTime - loginTimestamp) < twentyDaysInMillis;
   }
 
   Future<bool> login(String email, String password) async {
@@ -62,6 +70,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         }
         await _prefs.setString('token', data['access_token']);
         await _prefs.setString('refreshToken', data['refresh_token']);
+        await _prefs.setInt('loginTimestamp', DateTime.now().millisecondsSinceEpoch);
         state = AuthState(
           isAuthenticated: true,
           token: data['access_token'],
@@ -128,6 +137,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   Future<void> logout() async {
     await _prefs.remove('token');
     await _prefs.remove('refreshToken');
+    await _prefs.remove('loginTimestamp');
     state = AuthState();
   }
 }

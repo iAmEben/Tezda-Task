@@ -1,15 +1,43 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/authProvider.dart';
 import '../routes/route.dart';
 
 @RoutePage()
-class ProfileScreen extends ConsumerWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen>{
+  static const platform = MethodChannel('com.iameben.testmall/device');
+  String deviceInfo = 'Fetching device info...';
+
+  @override
+  void initState() {
+    super.initState();
+    _getDeviceInfo();
+  }
+
+  Future<void> _getDeviceInfo() async {
+    try {
+      final result = await platform.invokeMethod('getDeviceInfo');
+      setState(() {
+        deviceInfo = 'Device: ${result['modelName']}, iOS ${result['systemVersion']}';
+      });
+    } catch (e) {
+      setState(() {
+        deviceInfo = 'Device info not available';
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -59,6 +87,13 @@ class ProfileScreen extends ConsumerWidget {
                     fontSize: 16,
                     color: Colors.black54,
                   ),
+                ),
+                const SizedBox(height: 8),
+                Text(deviceInfo,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
+                    ),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
