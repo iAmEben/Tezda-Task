@@ -35,10 +35,10 @@ Android: Use emulator or device.
 
 ## Design Choices
 
-Architecture: Uses Riverpod for state management, AutoRoute for navigation, and SharedPreferences for token storage. Profile data is fetched in ProfileScreen to ensure fresh data, reducing AuthState complexity.
-UI: Static styles (TextStyle, ElevatedButton.styleFrom) in ProfileScreen and ProductCard for consistency.
-Authentication: Tokens saved before navigating to ProductListScreen. 20-day token expiration checked in SplashScreen and AuthNotifier. Also, data is persistent, users do not have to sign in when they successfully sign in
-Swift Integration: Need a few more hours to complete this as I spent time downloading required packages and my cocoapods seemed to to sync with flutter so import (flutter) statement is not recognised in AppDelegate.
+Architecture: Uses Riverpod for state management, AutoRoute for navigation, and SharedPreferences for token storage. Profile data is fetched in ProfileScreen to ensure fresh data, reducing AuthState complexity.<br>
+UI: Static styles (TextStyle, ElevatedButton.styleFrom) in ProfileScreen and ProductCard for consistency.<br>
+Authentication: Tokens saved before navigating to ProductListScreen. 20-day token expiration checked in SplashScreen and AuthNotifier. Also, data is persistent, users do not have to sign in when they successfully sign in. <br>
+Swift Integration: Need a few more hours to complete this as I spent time downloading required packages and my cocoapods seemed to to sync with flutter so import (flutter) statement is not recognised in AppDelegate. <br>
 CFBundleIdentifier (com.iameben.testmall) across Info.plist and MethodChannel. Android fallback returns "Device info not available".
 
 
