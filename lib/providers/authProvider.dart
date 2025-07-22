@@ -140,4 +140,42 @@ class AuthNotifier extends StateNotifier<AuthState> {
     await _prefs.remove('loginTimestamp');
     state = AuthState();
   }
+
+  Future<Map<String, dynamic>?> _fetchUserProfile(String token) async {
+    try {
+      final url = Uri.parse('https://api.escuelajs.co/api/v1/auth/profile');
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      if (kDebugMode) {
+        print('Profile GET Request:');
+      }
+      if (kDebugMode) {
+        print('URL: $url');
+      }
+      if (kDebugMode) {
+        print('Headers: $headers');
+      }
+      final response = await http.get(url, headers: headers).timeout(const Duration(seconds: 10));
+      if (kDebugMode) {
+        print('Profile Response Status: ${response.statusCode}');
+      }
+      if (kDebugMode) {
+        print('Profile Response Body: ${response.body}');
+      }
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      }
+      if (kDebugMode) {
+        print('Profile fetch failed: ${response.statusCode}, ${response.body}');
+      }
+      return null;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Profile fetch error: $e');
+      }
+      return null;
+    }
+  }
 }

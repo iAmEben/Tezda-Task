@@ -61,7 +61,7 @@ class ProductListScreen extends ConsumerWidget {
                 child: productsAsync.when(
                   data: (products) => products.isEmpty
                     ? Center(child: Text('There are no products right now', style: Styles.normalTextStyle))
-                    :ListView.builder(
+                    :ListView.separated(
                       itemCount: products.length,
                       itemBuilder: (context, index) {
                         final product = products[index];
@@ -69,7 +69,7 @@ class ProductListScreen extends ConsumerWidget {
                           product: product,
                           width: MediaQuery.of(context).size.width * 0.9,
                         );
-                      },
+                      }, separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16,),
                   ),
                   loading: () => const Center(child: CircularProgressIndicator()),
                   error: (error, _) => Center(child: Text('Error: $error')),

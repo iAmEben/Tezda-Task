@@ -2,6 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+
 import '../providers/authProvider.dart';
 import '../routes/route.dart';
 
@@ -13,14 +17,19 @@ class ProfileScreen extends ConsumerStatefulWidget {
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends ConsumerState<ProfileScreen>{
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   static const platform = MethodChannel('com.iameben.testmall/device');
   String deviceInfo = 'Fetching device info...';
+  String name = 'John Williams';
+  String email = 'john.williams@gmail.com';
+  String avatar = 'https://picsum.photos/200';
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _getDeviceInfo();
+    _fetchProfile();
   }
 
   Future<void> _getDeviceInfo() async {
@@ -33,6 +42,44 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>{
       setState(() {
         deviceInfo = 'Device info not available';
       });
+    }
+  }
+
+  Future<void> _fetchProfile() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token');
+      if (token == null) {
+        print('Profile fetch failed: No token found');
+        setState(() => isLoading = false);
+        return;
+      }
+      final url = Uri.parse('https://api.escuelajs.co/api/v1/auth/profile');
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+      print('Profile GET Request:');
+      print('URL: $url');
+      print('Headers: $headers');
+      final response = await http.get(url, headers: headers).timeout(const Duration(seconds: 10));
+      print('Profile Response Status: ${response.statusCode}');
+      print('Profile Response Body: ${response.body}');
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          name = data['name'] ?? 'John Williams';
+          email = data['email'] ?? 'john.williams@gmail.com';
+          avatar = data['avatar'] ?? 'https://picsum.photos/200';
+          isLoading = false;
+        });
+      } else {
+        print('Profile fetch failed: ${response.statusCode}, ${response.body}');
+        setState(() => isLoading = false);
+      }
+    } catch (e) {
+      print('Profile fetch error: $e');
+      setState(() => isLoading = false);
     }
   }
 
@@ -60,47 +107,49 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>{
           ),
         ],
       ),
-      body: ListView(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Column(
               children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage('https://picsum.photos/200'),
+                CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
                   minRadius: 60,
                   maxRadius: 60,
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'John Williams',
-                  style: TextStyle(
+                Text(
+                  name,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
                   ),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'john.williams@gmail.com',
-                  style: TextStyle(
+                Text(
+                  email,
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black54,
                   ),
                 ),
                 const SizedBox(height: 8),
-                Text(deviceInfo,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black54,
-                    ),
+                Text(
+                  deviceInfo,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: () {
-                    // TODO: Implement EditPassword navigation
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Edit Password Screen not implemented')),
+                      const SnackBar(content: Text('Edit Profile Screen not implemented')),
                     );
                   },
                   style: ElevatedButton.styleFrom(
