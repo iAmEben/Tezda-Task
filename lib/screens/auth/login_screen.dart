@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:auto_route/annotations.dart';
 
 import '../../routes/route.dart';
 
@@ -170,22 +169,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
           onPressed: () async {
             // Validate form inputs
-            if (_formKey.currentState!.validate()) {
-              // Attempt login using auth provider
-              // final success = await ref.read(authProvider.notifier).login(
-              //   _emailController.text,
-              //   _passwordController.text,
-              // );
-              // if (success) {
-              //   // Navigate to product list screen on successful login
-              //   context.router.replace(const ProductListRoute());
-              // } else {
-              //   // Show error message on login failure
-              //   ScaffoldMessenger.of(context).showSnackBar(
-              //     const SnackBar(content: Text('Login failed')),
-              //   );
-              // }
-            }
+            // if (_formKey.currentState!.validate()) {
+            //   Attempt login; using auth provider
+            //   final success = await ref.read(authProvider.notifier).login(
+            //     _emailController.text,
+            //     _passwordController.text,
+            //   );
+            //   if (success) {
+            //     // Navigate to product list screen on successful login
+            //     context.router.replace(const ProductListRoute());
+            //   } else {
+            //     // Show error message on login failure
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       const SnackBar(content: Text('Login failed')),
+            //     );
+            //   }
+            // }
           },
           child: const Text('Login'),
         ),
@@ -193,7 +192,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         // Register link
         TextButton(
           onPressed: () => context.router.push(const RegisterRoute()),
-          child: Container(
+          child: SizedBox(
             width: 150,
             child: Column(
               children: [
