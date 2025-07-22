@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tezda_task/providers/authProvider.dart';
 import 'package:tezda_task/routes/route.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tezda_task/theme.dart';
+import 'theme.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final sharedPreferences = await SharedPreferences.getInstance();
   runApp(ProviderScope(
@@ -28,4 +28,3 @@ class App extends ConsumerWidget {
     );
   }
 }
-

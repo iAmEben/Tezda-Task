@@ -1,11 +1,7 @@
 class AuthState {
   final bool isAuthenticated;
   final String? token;
-  final String? userId;
+  final String? refreshToken;
 
-  AuthState({
-    this.isAuthenticated = false,
-    this.token,
-    this.userId,
-  });
+  AuthState({this.isAuthenticated = false, this.token, this.refreshToken});
 }

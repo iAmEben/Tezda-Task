@@ -17,7 +17,7 @@ class ProductCard extends ConsumerWidget {
     required this.product,
     this.width = 340.0,
     this.cardHeight = 280.0,
-    this.imageHeight = 180.0,
+    this.imageHeight = 100.0,
     this.cardElevation = 4.0,
   });
 
@@ -26,7 +26,7 @@ class ProductCard extends ConsumerWidget {
     final favorites = ref.watch(favoritesProvider);
     return InkWell(
       onTap: () => context.router.push(ProductDetailRoute(productId: product.id)),
-      child: Container(
+      child: SizedBox(
         width: width,
         height: cardHeight,
         child: Card(
