@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tezda_task/values/colors.dart';
+import 'package:tezda_task/values/styles.dart';
 import '../providers/authProvider.dart';
 import '../routes/route.dart';
 
@@ -55,9 +57,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
           final authState = ref.read(authProvider);
           final isValid = ref.read(authProvider.notifier).isTokenValid();
           if (authState.isAuthenticated && isValid) {
-            context.router.replace(const ProductListRoute());
+            context.router.replaceAll([const ProductListRoute()]);
           } else {
-            context.router.replace(const LoginRoute());
+            context.router.replaceAll([const LoginRoute()]);
           }
         }
       });
@@ -109,10 +111,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with TickerProvider
                 animation: _textController,
                 child: Text(
                   'TestMall',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontFamily: 'Roboto',
-                    color: Colors.blue[900],
-                  ),
+                  style: Styles.customTitleTextStyle(
+                    color: AppColors.primaryColor
+                  )
                 ),
                 builder: (context, child) => Transform.scale(
                   scale: _textAnimation.value,

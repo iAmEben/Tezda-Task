@@ -5,4 +5,5 @@ class Sizes {
   static const double WIDTH_0 = 0.0;
   static const double PADDING_0 = 0.0;
   static const double PADDING_22 = 22.0;
+  static const double TEXT_SIZE_40 = 40.0;
 }

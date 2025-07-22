@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tezda_task/values/colors.dart';
+import 'package:tezda_task/values/styles.dart';
 
 import '../../providers/authProvider.dart';
 import '../../routes/route.dart';
@@ -81,10 +83,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         child: Text(
           'Welcome Back',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-            fontFamily: 'Roboto',
-            color: Colors.white,
-          ),
+          style: Styles.customTitleTextStyle(
+            color: AppColors.primaryColor
+          )
         ),
       ),
     );
@@ -178,7 +179,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               );
               if (success) {
                 // Navigate to product list screen on successful login
-                context.router.replace(const ProductListRoute());
+                context.router.replaceAll([const ProductListRoute()]);
               } else {
                 // Show error message on login failure
                 ScaffoldMessenger.of(context).showSnackBar(

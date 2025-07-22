@@ -12,4 +12,20 @@ class Styles {
     fontWeight: FontWeight.w400,
     fontSize: Sizes.TEXT_SIZE_16,
   );
+
+  static TextStyle customTitleTextStyle({
+    Color color = AppColors.secondaryText,
+    String fontFamily = StringConst.FONT_FAMILY,
+    FontWeight fontWeight = FontWeight.w700,
+    double fontSize = Sizes.TEXT_SIZE_40,
+    double letterSpacing = 0,
+  }) {
+    return TextStyle(
+      color: color,
+      fontFamily: fontFamily,
+      fontWeight: fontWeight,
+      fontSize: fontSize,
+      letterSpacing: letterSpacing,
+    );
+  }
 }

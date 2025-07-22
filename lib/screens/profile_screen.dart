@@ -97,7 +97,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>{
                 ),
                 const SizedBox(height: 24),
                 ElevatedButton(
-                  onPressed: () => context.router.push(const EditProfileRoute()),
+                  onPressed: () {
+                    // TODO: Implement EditPassword navigation
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Edit Password Screen not implemented')),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(MediaQuery.of(context).size.width / 3, 50),
                     backgroundColor: Colors.blue,
